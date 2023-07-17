@@ -10,16 +10,16 @@ import(
 var db *gorm.DB
 
 type voluntary struct{
-	ID uint64 `gorm:"primaryKey"`
-	name string	
-	discipler string 
+	ID uint64 `json: "id" gorm:"primaryKey"`
+	name string	`json: "name"`
+	discipler string `json: "discipler"`  //discipulador
 	sectorID int64 
-	sector sector `gorm: "foreignKey:sectorRefer, references: sectorID"` //ministerio
+	sector sector `json: "sector" gorm: "foreignKey:sectorRefer, references: sectorID"` //ministerio
 }
 
 type sector struct{
-	ID int64 `gorm:"primaryKey"`
-	Name string
+	ID int64 `json:"id" gorm:"primaryKey"`
+	Name string`json: "name"`
 }
 
 func Setup(){
@@ -31,7 +31,7 @@ func Setup(){
 		panic(err)
 	}
 
-	err = db.AutoMigrate(&voluntary{},&sector{})
+	err = db.AutoMigrate(&voluntary{}, &sector{})
 	if err != nil{
 		fmt.Println(err)
 	}
